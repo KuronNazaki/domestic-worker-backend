@@ -40,7 +40,9 @@ import { DatabaseConstant } from 'src/constants/database.constant'
               ? {
                   ssl: {
                     ca: fs.readFileSync(
-                      EnvironmentVariableKey.SSL_CA_CERTIFICATES
+                      configService.get(
+                        EnvironmentVariableKey.SSL_CA_CERTIFICATES
+                      )
                     ),
                   },
                 }
