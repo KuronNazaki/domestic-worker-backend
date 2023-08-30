@@ -3,6 +3,7 @@ import { PostRepository } from '../repositories/post.repository'
 import { CreatePostDto } from 'src/dtos/post.dto'
 import { Post } from 'src/entities/post.entity'
 
+@Injectable()
 export abstract class PostService {
   abstract findAll(): Promise<Post[]>
   abstract findOne(id: number): Promise<Post>
@@ -10,7 +11,7 @@ export abstract class PostService {
 }
 
 @Injectable()
-export class PostServiceImp {
+export class PostServiceImp implements PostService {
   constructor(private readonly postRepository: PostRepository) {}
 
   async create(dto: CreatePostDto): Promise<Post> {

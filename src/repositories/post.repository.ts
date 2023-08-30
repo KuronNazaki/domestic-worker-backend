@@ -2,6 +2,7 @@ import { DataSource, Repository } from 'typeorm'
 import { Post } from '../entities/post.entity'
 import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export abstract class PostRepository extends Repository<Post> {}
 
 @Injectable()
