@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import {
+  DatabaseLocation,
   EnvironmentVariableKey,
   NodeEnvironment,
 } from '../../constants/environment.constant'
@@ -17,6 +18,9 @@ import { DatabaseConstant } from 'src/constants/database.constant'
         const currentNodeEnvironment = configService.get(
           EnvironmentVariableKey.NODE_ENV
         )
+        const databaseLocation = configService.get(
+          EnvironmentVariableKey.DATABASE_LOCATION
+        )
 
         return {
           type: DatabaseConstant.TYPE,
@@ -31,7 +35,8 @@ import { DatabaseConstant } from 'src/constants/database.constant'
 
           // Check SSL for production
           ...(() =>
-            currentNodeEnvironment === NodeEnvironment.PRODUCTION
+            currentNodeEnvironment === NodeEnvironment.PRODUCTION ||
+            databaseLocation === DatabaseLocation.REMOTE
               ? {
                   ssl: {
                     ca: fs.readFileSync(
@@ -44,7 +49,9 @@ import { DatabaseConstant } from 'src/constants/database.constant'
           // Only enable this option if your application is in development,
           // otherwise use TypeORM migrations to sync entity schemas:
           // https://typeorm.io/#/migrations
-          synchronize: currentNodeEnvironment === NodeEnvironment.DEVELOPMENT,
+          synchronize:
+            currentNodeEnvironment === NodeEnvironment.DEVELOPMENT &&
+            databaseLocation === DatabaseLocation.LOCAL,
         }
       },
     }),

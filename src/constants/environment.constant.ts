@@ -7,9 +7,15 @@ export enum EnvironmentVariableKey {
   PORT = 'PORT',
   NODE_ENV = 'NODE_ENV',
   SSL_CA_CERTIFICATES = 'SSL_CA_CERTIFICATES',
+  DATABASE_LOCATION = 'DATABASE_LOCATION',
 }
 
 export enum NodeEnvironment {
   DEVELOPMENT = 'development',
   PRODUCTION = 'production',
+}
+
+export enum DatabaseLocation {
+  LOCAL = 'local',
+  REMOTE = 'remote',
 }
